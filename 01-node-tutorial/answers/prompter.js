@@ -22,7 +22,7 @@ const getBody = (req, callback) => {
 
 // here, you could declare one or more variables to store what comes back from the form.
 let item = "Enter something below.";
-
+const salt = "-_-CTD";
 // here, you can change the form below to modify the input fields and what is displayed.
 // This is just ordinary html with string interpolation.
 const form = () => {
@@ -45,7 +45,18 @@ const server = http.createServer((req, res) => {
       console.log("The body of the post is ", body);
       // here, you can add your own logic
       if (body["item"]) {
-        item = body["item"];
+        // capitalize first letter of every word entered, and add SALT for a cool hash!
+        const wordsArr = body["item"].split("+");
+        console.log(wordsArr);
+        const capitalizedWords = wordsArr.map((word) => {
+          if (word.length > 0) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          }
+          return "";
+        });
+        item = capitalizedWords.join("-_-") + salt;
+
+        console.log(item);
       } else {
         item = "Nothing was entered.";
       }
