@@ -1,0 +1,29 @@
+1. In this lesson, you created a middleware function called asyncWrapper. Why?
+
+Answer: 
+    The async wrapper serves two primary purposes. 
+    First, it helps organize the controller,
+    removing the try catch blocks so only the necessary logic is there. 
+    There is a single try-catch block inside of the async wrapper used for the entire controller. 
+    Second, the async wrapper handles errors from the controller.
+    This way, only custom errors are handled in the controller. 
+    The async wrapper passes the errors to the error-handler middleware using the built-in 
+    express function next(). 
+
+
+2. Suppose that you want to make sure that both a status code and an error message 
+are sent back to the user when they request the URL for a task that does not exist. 
+Assume that you’ve created a CustomAPIError class and an error handler that references that class. 
+
+Complete the code:
+
+const {customAPIError} = require('../errors/error-handler') // fetch the custom handler
+
+const getTask = asyncWrapper(async (req, res, next) => {  
+  const { id: taskID } = req.params;  
+  const task = await Task.findOne({ _id: taskID });  
+  if (!task) {  
+    return next(customAPIError(`URL does not exist with id:${id}`,404));
+  }  
+  res.status(200).json({ task });  
+});  
