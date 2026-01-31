@@ -19,12 +19,8 @@ const logon = async (req, res, next) => {
 };
 
 const hello = async (req, res, next) => {
-  try {
-    res.status(200).send("hello");
-  } catch (error) {
-    next(error);
-    throw new Error("Failed to authenticate user");
-  }
+  const name = req.user.name;
+  res.status(200).json({ message: `Hello, ${name}!` });
 };
 
 module.exports = { logon, hello };
